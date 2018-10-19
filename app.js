@@ -34,35 +34,38 @@ for (let chapter = 423; chapter <= 545; chapter++) {
                 const img = $('.w970>p>a>img').attr('src');
                 img_list.push(img);
 
-                fs.exists('data/image', function (exists) {
-                    if (!exists) {
-                        fs.mkdir(`data/image`, function (err) {
-                            if (err) {
-                                throw err;
-                            }
-                            async.mapSeries(img_list, function (item, callback) {
-                                setTimeout(function () {
-                                    //downloadPic方法下载图片
-                                    if (item !== undefined) {
-                                        downloadPic(item, '1', `data_${index}.jpg`);
-                                    }
-                                    callback(null, item);
-                                }, 2000);
-                            }, function (err, results) { });
-                        });
-                        console.log('ye')
-                    } else {
-                        async.mapSeries(img_list, function (item, callback) {
-                            setTimeout(function () {
-                                //downloadPic方法下载图片
-                                if (item !== undefined) {
-                                    downloadPic(item, '1', `data_${chapter}_${index}.jpg`);
-                                }
-                                callback(null, item);
-                            }, 2000);
-                        }, function (err, results) { });
-                    }
-                })
+                download(img, `dist/${pageIndex}`).then(() => {
+                    console.log(`正在下载第${pageIndex}章中的第${index}张`);
+                });
+                // fs.exists('data/image', function (exists) {
+                //     if (!exists) {
+                //         fs.mkdir(`data/image`, function (err) {
+                //             if (err) {
+                //                 throw err;
+                //             }
+                //             async.mapSeries(img_list, function (item, callback) {
+                //                 setTimeout(function () {
+                //                     //downloadPic方法下载图片
+                //                     if (item !== undefined) {
+                //                         downloadPic(item, '1', `data_${index}.jpg`);
+                //                     }
+                //                     callback(null, item);
+                //                 }, 2000);
+                //             }, function (err, results) { });
+                //         });
+                //         console.log('ye')
+                //     } else {
+                //         async.mapSeries(img_list, function (item, callback) {
+                //             setTimeout(function () {
+                //                 //downloadPic方法下载图片
+                //                 if (item !== undefined) {
+                //                     downloadPic(item, '1', `data_${chapter}_${index}.jpg`);
+                //                 }
+                //                 callback(null, item);
+                //             }, 2000);
+                //         }, function (err, results) { });
+                //     }
+                // })
             })
         }
     })
